@@ -1,0 +1,29 @@
+[DESTINATION]
+dstn_hostname = http://173.28.0.1:8081
+# dstn_access_token = <obfuscated-dest-token>
+import_user_id = 1
+shared_runners_enabled = False
+project_suffix = False
+max_import_retries = 3
+max_asset_expiration_time = 24
+
+[SOURCE]
+src_type = GitLab
+src_tier = free
+# src_access_token = <oobfuscated-src-token>
+src_hostname = http://gitlab-src:80
+export_import_timeout = 3600
+
+[EXPORT]
+location = filesystem
+filesystem_path = /opt/congregate
+
+[USER]
+keep_inactive_users = True
+reset_pwd = False
+force_rand_pwd = True
+
+[APP]
+export_import_status_check_time = 10
+ui_port = 8000
+ssl_verify = False
