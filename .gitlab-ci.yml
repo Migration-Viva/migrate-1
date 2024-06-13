@@ -1,0 +1,26 @@
+stages:
+  - triage
+
+dry-run:triage:
+  image: ruby:2.7
+  stage: triage
+  script:
+    - gem install gitlab-triage
+    - gitlab-triage --help
+    - gitlab-triage --dry-run --token $TRIAGE_TOKEN --source projects --source-id $CI_PROJECT_PATH
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      changes:
+        - .triage-policies.yml
+      when: manual
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+
+run:triage:triage:
+  image: ruby:2.7
+  stage: triage
+  script:
+    - gem install gitlab-triage
+    - gitlab-triage --token $TRIAGE_TOKEN --source-id $CI_PROJECT_PATH
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
